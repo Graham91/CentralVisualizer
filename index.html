@@ -48,7 +48,7 @@
             background-color: black;
         }
 
-        #navbox1 {
+        .blue {
             background-color: blue;
         }
 
@@ -99,22 +99,25 @@
         <div class="navbox" id="navbox4">
 
         </div>
+        <div class="navbox" id="navbox5">
+
+        </div>
 
 
     </div>
-    <button id="leftbutton">move to left</button>
-    <button id="rightbutton">move to right</button>
+    <button id="leftbutton">move to right</button>
+    <button id="rightbutton">move to left</button>
 
     <script>
         $(document).ready(function () {
             //possible solution:
-            // const elementarray = [
-            //     { id: "#players1", position: "p1" },
-            //     { id: "#players2", position: "p2" },
-            //     { id: "#players3", position: "p3" },
-            //     { id: "#players4", position: "p4" },
-            //     { id: "#players5", position: "p5" }
-            // ];
+            const playerselementarray = [
+                { id: "#players1", position: "#navbox1" },
+                { id: "#players2", position: "#navbox2" },
+                { id: "#players3", position: "#navbox3" },
+                { id: "#players4", position: "#navbox4" },
+                { id: "#players5", position: "#navbox5" }
+            ];
             // const postitionOne = ["p1", "p2", "p3", "p4", "p5"];
 
             //for each left push the central div gets push to the left
@@ -139,6 +142,18 @@
                 $(leftsidearray[1]).addClass("left");
                 $(rightsidearray[0]).addClass("right");
                 $(rightsidearray[1]).addClass("right");
+                playerselementarray.forEach(element => {
+                    let navItem = element.position;
+                    $(navItem).removeClass("blue");
+
+                });
+                function findplayer(box) {
+                    return box.id === centraldiv
+
+                }
+                const mainviewer = playerselementarray.find(findplayer);
+                let navIdString = mainviewer.position;
+                $(navIdString).addClass("blue");
             }
             sortimages();
             console.log("working");
@@ -182,13 +197,13 @@
 
             $("#leftbutton").click(function (event) {
                 console.log("leftbuttonclicked")
+                moveright();
 
-                moveleft();
             })
             $("#rightbutton").click(function (event) {
                 console.log("rightbuttonclicked")
+                moveleft();
 
-                moveright();
             })
 
         });
