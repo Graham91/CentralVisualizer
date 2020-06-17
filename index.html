@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <title>Document</title>
+    <style>
+        .centraldiv {
+            position: fixed;
+            top: 100px;
+            width: 800px;
+            height: 400px;
+            background-color: aquamarine;
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+
+
+        }
+
+
+
+        .bottomnav {
+            position: absolute;
+            top: 500px;
+            width: 800px;
+            height: 60px;
+            background-color: bisque;
+            margin: 0 auto;
+            margin-top: 100px;
+            display: flex;
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+        .navbox {
+            height: 20px;
+            width: 15%;
+            margin-left: 5%;
+            margin-top: 20px;
+            margin-right: 5%;
+            background-color: black;
+        }
+
+        #navbox1 {
+            background-color: blue;
+        }
+
+        .right {
+            right: -9999px;
+            position: fixed;
+
+        }
+
+        .left {
+            left: -9999px;
+            position: fixed;
+        }
+
+        .transition {
+            transition: .5s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="centraldiv" id="players1">
+        div1
+    </div>
+    <div class="centraldiv" id="players2">
+        div2
+    </div>
+    <div class="centraldiv" id="players3">
+        div3
+    </div>
+    <div class="centraldiv" id="players4">
+        div4
+    </div>
+    <div class="centraldiv" id="players5">
+        div5
+    </div>
+
+    <div class="bottomnav">
+        <div class="navbox" id="navbox1">
+
+        </div>
+        <div class="navbox" id="navbox2">
+
+        </div>
+        <div class="navbox" id="navbox3">
+
+        </div>
+        <div class="navbox" id="navbox4">
+
+        </div>
+
+
+    </div>
+    <button id="leftbutton">move to left</button>
+    <button id="rightbutton">move to right</button>
+
+    <script>
+        $(document).ready(function () {
+            //possible solution:
+            // const elementarray = [
+            //     { id: "#players1", position: "p1" },
+            //     { id: "#players2", position: "p2" },
+            //     { id: "#players3", position: "p3" },
+            //     { id: "#players4", position: "p4" },
+            //     { id: "#players5", position: "p5" }
+            // ];
+            // const postitionOne = ["p1", "p2", "p3", "p4", "p5"];
+
+            //for each left push the central div gets push to the left
+            //for each right click the first item in left is pull out and put in central div
+            //if left side array is empty and right side is clicked the last item from rightsidearry gets put in central div and central div is push to right side 
+            //if array is empty 
+            let leftsidearray = ["#players1", "#players2"];
+            let centraldiv = "#players3";
+            let rightsidearray = ["#players4", "#players5"];
+            function sortimages() {
+                $(rightsidearray[1]).removeClass('transition');
+                $(leftsidearray[0]).removeClass('transition');
+                $(leftsidearray[1]).addClass("transition");
+                $(rightsidearray[0]).addClass("transition");
+                $(centraldiv).removeClass('right');
+                $(centraldiv).removeClass('left');
+                $(rightsidearray[0]).removeClass('left');
+                $(leftsidearray[0]).removeClass('right');
+                $(rightsidearray[1]).removeClass('left');
+                $(leftsidearray[1]).removeClass('right');
+                $(leftsidearray[0]).addClass("left");
+                $(leftsidearray[1]).addClass("left");
+                $(rightsidearray[0]).addClass("right");
+                $(rightsidearray[1]).addClass("right");
+            }
+            sortimages();
+            console.log("working");
+            function moveright() {
+                // console.log("leftsidearray: " + leftsidearray + ", central" + centraldiv + ", Rightsidearray: " + rightsidearray);
+                let centraldivcurrent = centraldiv;
+                centraldiv = leftsidearray[1];
+                // console.log(centraldivcurrent);
+                leftsidearray.pop();
+                rightsidearray.unshift(centraldivcurrent);
+                leftsidearray.unshift(rightsidearray[2]);
+                // rightsidearray.splice(1, 1);
+                rightsidearray.pop();
+                // console.log("leftsidearray: " + leftsidearray + ", central" + centraldiv + ", Rightsidearray: " + rightsidearray);
+                sortimages();
+
+
+                //left side
+                //last one from left side gets centralized moved to the central space
+                //first one get transition added
+                //central 
+                // central div gets moved to right gets added to front of rightsidearray
+                // the id is taken and adjust the bottom one
+                //right
+                //last in right side array gets moved to left side added to front
+                //middle gets transition removed 
+            }
+            function moveleft() {
+                // console.log("leftsidearray: " + leftsidearray + ", central" + centraldiv + ", Rightsidearray: " + rightsidearray);
+                let centraldivcurrent = centraldiv;
+                centraldiv = rightsidearray[0];
+                // console.log(centraldivcurrent);
+                rightsidearray.shift();
+                leftsidearray.push(centraldivcurrent);
+                rightsidearray.push(leftsidearray[0]);
+                // rightsidearray.splice(1, 1);
+                leftsidearray.shift();
+                // console.log("leftsidearray: " + leftsidearray + ", central" + centraldiv + ", Rightsidearray: " + rightsidearray);
+                sortimages();
+            }
+
+            $("#leftbutton").click(function (event) {
+                console.log("leftbuttonclicked")
+
+                moveleft();
+            })
+            $("#rightbutton").click(function (event) {
+                console.log("rightbuttonclicked")
+
+                moveright();
+            })
+
+        });
+
+
+    </script>
+</body>
+
+
+</html>
